@@ -3,8 +3,26 @@
   <head>
     <meta charset="UTF-8">
     <title>Splay Trees</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
   </head>
   <body>
       <h1>Splay Tree</h1>
+      <p>
+          A <b>splay tree</b> is a type of binary tree that incorporates a <i>splay</i> method
+          at the end of each operation (i.e. insert, delete, and find).
+      </p>
+      <p>
+          The <b>splay</b> method is an operation on the splay tree that brings a given node
+          to the root of the tree via a set of <i>rotations</i>.
+      </p>
+      <h2>Rotations</h2>
+      <p>Here is a typical binary tree:</p>
+      <p class="tree">
+          7<br>
+          /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\<br>
+          3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13<br>
+          /&nbsp;&nbsp;&nbsp;\&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;\
+          
+      </p>
   </body>
 </html>
