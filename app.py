@@ -3,7 +3,7 @@ app = Flask(__name__) # instantiates an instance of Flask
 
 @app.route("/") #Linking a function to a route
 def home():
-    return "Hello, World!"
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.debug = True
