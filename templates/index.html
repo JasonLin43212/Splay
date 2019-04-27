@@ -151,7 +151,33 @@
           on the situation. The zig does not have to be used in the end if <b>x</b> ends up being two nodes away from the root of the tree, which will only necesitate the use of a zig-zig or a zig-zag.
       </p>
       <h2>Splaying with Binary Tree Operations</h2>
-      
+      <h3>Insert</h3>
+      <p>
+          When insertng an element, you first use the regular insert method of a binary tree, where you compare the value of the element you are inserting with that of a node on the tree. Starting from the root, you
+          traverse down the tree until that element has found its spot. Then you apply the splay operation on the element that was just inserted. Here is an example.
+      </p>
+      <img class="tree" src="/static/tree10.png" alt="tree10">
+      <p>Let's say that we want to insert the element 12 into the tree. Then it will look like that.</p>
+      <img class="tree" src="/static/tree11.png" alt="tree11">
+      <p>Now we apply the splay operation on the element 12. First, it will do a zig-zag which will move it up. Then from there, it will do a zig to go to the root of the tree.</p>
+      <h3>Find</h3>
+      <p>
+          When finding an element, if the element is in the tree, then that element will be splayed to the root. However, if the element you are trying to find is not in the tree, then
+          it will splay the element that you are on right before you declared that that element is not in the tree. Taking the diagram right after we inserted 12 into the tree, let's say that
+          we are trying to find the element 10, a nonexistent element:
+      </p>
+      <ol>
+          <li>
+              We traverse down the tree from 7 -> 13 -> 11.
+          </li>
+          <li>
+              Since 10 is less than 11, but 11 does not have a left child, then we declare that 10 is not an element of the tree.
+          </li>
+          <li>
+              Finally, we splay the element 11 to the root of the tree.
+          </li>
+      </ol>
+      <h3>Delete</h3>
       <footer style="text-align:center">
           <hr>
           &copy; Team Splaytoon - Jason Lin and Kenny Li (Period 7)
