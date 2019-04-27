@@ -185,8 +185,8 @@
     <img class="tree" src="/static/tree10.png" alt="tree10">
     <p>Let's say that we want to insert the element 12 into the tree. Then it will look like that.</p>
     <img class="tree" src="/static/tree11.png" alt="tree11">
-    <p>Now we apply the splay operation on the element 12. First, it will do a zig-zag which will move it up. Then from
-        there, it will do a zig to go to the root of the tree.</p>
+    <p>Now we apply the splay operation on the element 12. First, we will do a zig-zag which will move it up. Then from
+        there, we will do a zig to go to the root of the tree.</p>
     <h3>Find</h3>
     <p>
         When finding an element, if the element is in the tree, then that element will be splayed to the root. However,
@@ -208,7 +208,19 @@
         </li>
     </ol>
     <h3>Delete</h3>
-
+    <p>
+        There are two ways to delete an element from a splay tree. The first method can be read about <a href="https://en.wikipedia.org/wiki/Splay_tree#Deletion">here</a>.
+        The second method, which is what we used in our code, goes as follows:
+    </p>
+    <ol>
+        <li>Find the element you are trying to delete.</li>
+        <li>Splay it to the root.</li>
+        <li>Delete it so that the splay tree splits up into two smaller trees.</li>
+        <li>Find the largest element in the <i>left tree</i> and splay it to the root.</li>
+        <li>Take the root of the <i>right tree</i> and make it the right child of the root of the now splayed left tree.</li>
+    </ol>
+    <img class="tree" src="/static/tree12.png" alt="tree12">
+    <h2>Pros and Cons</h2>
     <table border="1">
         <tr>
             <th>Advantages</th>
@@ -242,6 +254,13 @@
         <a href="https://www.youtube.com/watch?v=JsTptu56GM8">here</a> is a video explaining
         it. After watching this video you can see that using a splay tree will help arrange
         common letters to be closer to the root and rare letters to be closer to the bottom. </p>
+    <h2>Other Resources</h2>
+    <ul>
+        <li><a href="https://www.cs.usfca.edu/~galles/visualization/SplayTree.html">Splay Tree Visualizer</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Splay_tree">Read more on Wikipedia</a></li>
+        <li><a href="https://www.cs.cornell.edu/courses/cs3110/2009fa/recitations/rec-splay.html">Explanation by Cornell</a></li>
+        <li><a href="https://www.youtube.com/watch?v=IBY4NtxmGg8">Video explaning Splay Tree</a> </li>
+    </ul>
     <footer style="text-align:center">
         <hr>
         &copy; Team Splaytoon - Jason Lin and Kenny Li (Period 7)
