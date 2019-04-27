@@ -1,186 +1,251 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Splay Trees</title>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
-  </head>
-  <body>
-      <h1>Splay Trees</h1>
-      <p>
-          A <b>splay tree</b> is a type of binary tree that incorporates a <i>splay</i> method
-          at the end of each operation (i.e. insert, delete, and find).
-      </p>
-      <p>
-          The <b>splay</b> method is an operation on the splay tree that brings a given node
-          to the root of the tree via a set of <i>rotations</i>.
-      </p>
-      <h2>Binary Tree</h2>
-      <p>Here is a typical binary tree:</p>
-      <img class="tree" src="/static/tree1.png" alt="tree1">
-      <p>
-          As you can see, every node has at most 2 children and the left children are
-          less than their parents while the right children are greater than their parents. Now let's
-          see how a rotation works with an example.
-      </p>
-      <h2>Rotation (Zig)</h2>
-      <p>
-          Key: <br>
-          <b>x</b> - Target node <br>
-          <b>p</b> - Parent node <br>
-          <b>A,B,C</b> - Children nodes
-      </p>
-      <img class="tree" src="/static/tree2.png" alt="tree2">
-      <p>
-          In the diagram above, you can see how the inequality <i>A < x < B < p < C</i> holds true.
-          You can do a <b>rotation</b> (or a <b>zig</b>) on the <b>x</b> node to get the following result:
-      </p>
-      <img class="tree" src="/static/tree3.png" alt="tree3">
-      <p>
-          You can imagine taking the entire tree and rotating it so that <b>x</b> is near the top. Then you
-          transfer the child of <b>x</b> that is closest to the parent, namely <b>B</b> to become a child of
-          the <b>p</b> node. Note that:
-      </p>
-      <ol>
-          <li>
-              The <b>x</b> is at the root of the tree.
-          </li>
-          <li>
-              The inequality above is still true.
-          </li>
-          <li>
-              The <b>A, B, or C</b> nodes <i>can</i> be NULL, meaning that, for example, if
-              <b>x</b> did not have a right child, then after the rotation, <b>p</b> will not have a left child.
-          </li>
-          <li>
-              The <b>A, B, or C</b> nodes <i>can</i> have their own children but since this rotation is with respect to the <b>x</b>
-              node, those children will not effect this rotation
-          </li>
-          <li>
-              The <b>p</b> node <i>can</i> have a parent too (which is the grandparent of the <b>x</b> node) but after the rotation,
-              <b>x</b> will replace <b>p</b> as the child of the grandparent node.
-          </li>
-      </ol>
-      <p>
-          The rotation, or zig, also works on the mirror image of starting tree. Just imagine <b>x</b> as the right child of the
-          <b>p</b> node and still with two children. When you rotation, you just have to do it the other way.
-      </p>
-      <p>
-          Great! Now you know about the simple zig operation on a node of a tree. The zig is used in the other operations that will
-          be explained later. It is also used when your target node is a child of the root (it is one node away from the root). Then,
-          by doing the zig operation on the target node, it will bring it to the root. The following two operations are what you
-          do when your target node is <i><b>MORE THAN ONE</b></i> node away from the root.
-      </p>
-      <h2>Zig-Zig</h2>
-      <p>
-          Key: <br>
-          <b>x</b> - Target node <br>
-          <b>p</b> - Parent node <br>
-          <b>g</b> - Grandparent node <br>
-          <b>A,B,C,D</b> - Children nodes
-      </p>
-      <img class="tree" src="/static/tree4.png" alt="tree4">
-      <p>
-          The <b>zig-zig</b> operation is used when the target node is the <i>same-side child</i> as its parent node. By <b>same-side child</b>
-          I mean that the target node is a <u>left child</u> of its parent and its parent is also a <u>left child</u> of the grandparent of
-          the target node or that the target node is a <u>right child</u> of its parent and the parent is also a <u>right child</u> of the grandparent
-          node.
-      </p>
-      <p>
-          The zig-zig operation has two parts to it:
-      </p>
-      <ol>
-          <li>
-              Zig the tree with the <b>p</b> node as the "temporary target node" and then
-          </li>
-          <li>
-              Zig the tree with <b>x</b> as the target node.
-          </li>
-      </ol>
-      <img class="tree" src="/static/tree5.png" alt="tree5">
-      <p>
-          If we look at the above diagram and focus only on the inside of the dotted rectangle, we can see similarities with the
-          example of zig from above. By comparison, we can see that the <b>p</b> node corresponds to the target node from the zig diagram. From there, we can
-          do a zig on <b>p</b>. As you can see, the child of <b>p</b> which was closest to its parent is the <b>C</b> node and therefore got transfered over to
-          being a child of <b>g</b> so this operation still makes sense. We can also see that the children of <b>x</b> just "followed along".
-      </p>
-      <img class="tree" src="/static/tree6.png" alt="tree6">
-      <p>
-          Now we just look inside the dotted area (which is where <b>x</b> corresponds with the target node from the zig diagram) and perform the zig operation
-          with <b>x</b> as the target node. Yay! Now <b>x</b> is at the root. Again, just like with the zig operation, <b>A, B, C, or D</b> can be NULL or have their
-          own children and the grandparent can also have its own parent (but after the zig-zig operation, <b>x</b> will replace <b>g</b> as being the child of that parent).
-      </p>
-      <h2>Zig-Zag</h2>
-      <p>
-          Key: <br>
-          <b>x</b> - Target node <br>
-          <b>p</b> - Parent node <br>
-          <b>g</b> - Grandparent node <br>
-          <b>A,B,C,D</b> - Children nodes
-      </p>
-      <img class="tree" src="/static/tree7.png" alt="tree7">
-      <p>
-          The <b>zig-zag</b> operation is used when the target node is <i>not</i> the same-side child as its parent node. So if the target node is a <u>right child</u> of
-          its parent, then the parent is a <u>left child</u> of the grandparent node or vice versa.
-      </p>
-      <p>
-          The zig-zag operation also has two parts to it:
-      </p>
-      <ol>
-          <li>
-              Zig the tree with the <b>x</b> node as the target node and then
-          </li>
-          <li>
-              Zig the tree with <b>x</b> as the target node again.
-          </li>
-      </ol>
-      <img class="tree" src="/static/tree8.png" alt="tree8">
-      <p>
-          Looking at the dotted area, we can zig with <b>x</b> as the target node. A thing to note here is that this example is the mirrored example of the zig diagram from
-          before but <b>x</b> still ends up as the "root" within the dotted area. Also, we can see how <b>x</b> replaces <b>p</b> as one of the childen of <b>g</b>.
-      </p>
-      <img class="tree" src="/static/tree9.png" alt="tree9">
-      <p>
-          Focusing on the dotted area again, we can zig with <b>x</b> as the target node and end up with <b>x</b> at the root. As with the other operations, <b>A, B, C, and D</b>
-          can be NULL or have their own children and if the grandparent node has a parent, then <b>x</b> will replace <b>g</b> as the child of that parent.
-      </p>
-      <h2>Getting to the Top with Zigging and Zagging</h2>
-      <p>
-          As I have mentioned multiple times, after a zig-zig or zig-zag operation, the target node <i>may</i> replace the grandparent node's place as the children of an even higher up
-          node. This means that if the target node starts near the bottom of a big tree, then the splay operation will be using a series of zig-zig and zig-zag operations on <b>x</b> depending
-          on the situation. The zig does not have to be used in the end if <b>x</b> ends up being two nodes away from the root of the tree, which will only necesitate the use of a zig-zig or a zig-zag.
-      </p>
-      <h2>Splaying with Binary Tree Operations</h2>
-      <h3>Insert</h3>
-      <p>
-          When insertng an element, you first use the regular insert method of a binary tree, where you compare the value of the element you are inserting with that of a node on the tree. Starting from the root, you
-          traverse down the tree until that element has found its spot. Then you apply the splay operation on the element that was just inserted. Here is an example.
-      </p>
-      <img class="tree" src="/static/tree10.png" alt="tree10">
-      <p>Let's say that we want to insert the element 12 into the tree. Then it will look like that.</p>
-      <img class="tree" src="/static/tree11.png" alt="tree11">
-      <p>Now we apply the splay operation on the element 12. First, it will do a zig-zag which will move it up. Then from there, it will do a zig to go to the root of the tree.</p>
-      <h3>Find</h3>
-      <p>
-          When finding an element, if the element is in the tree, then that element will be splayed to the root. However, if the element you are trying to find is not in the tree, then
-          it will splay the element that you are on right before you declared that that element is not in the tree. Taking the diagram right after we inserted 12 into the tree, let's say that
-          we are trying to find the element 10, a nonexistent element:
-      </p>
-      <ol>
-          <li>
-              We traverse down the tree from 7 -> 13 -> 11.
-          </li>
-          <li>
-              Since 10 is less than 11, but 11 does not have a left child, then we declare that 10 is not an element of the tree.
-          </li>
-          <li>
-              Finally, we splay the element 11 to the root of the tree.
-          </li>
-      </ol>
-      <h3>Delete</h3>
-      <footer style="text-align:center">
-          <hr>
-          &copy; Team Splaytoon - Jason Lin and Kenny Li (Period 7)
-      </footer>
-  </body>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css') }}">
+</head>
+
+<body>
+    <h1>Splay Trees</h1>
+    <p>A <b>splay tree</b> is a type of binary tree that incorporates a <i>splay</i> method at the
+        end of each of its operations (i.e. insert, delete, and find). The <b>splay</b> method is an
+        operation on the splay tree that brings the current node to the root of the tree via a series
+        of <i>rotations</i>. The purpose of a splay tree is to have quicker access to recently viewed
+        elements as they will be closer to the root due to splaying. It was invented by <b>Daniel
+            Dominic Sleator</b> and <b>Robert Endre Tarjan</b> in 1985. </p>
+    <h2>Binary Tree</h2>
+    <p>Here is a typical binary tree:</p>
+    <img class="tree" src="/static/tree1.png" alt="tree1">
+    <p>
+        As you can see, every node has at most 2 children and the left children are
+        less than their parents while the right children are greater than their parents. Now let's
+        see how a rotation works with an example.
+    </p>
+    <h2>Rotation (Zig)</h2>
+    <p>
+        Key: <br>
+        <b>x</b> - Target node <br>
+        <b>p</b> - Parent node <br>
+        <b>A,B,C</b> - Children nodes
+    </p>
+    <img class="tree" src="/static/tree2.png" alt="tree2">
+    <p>
+        In the diagram above, you can see how the inequality <i>A < x < B < p < C</i> holds true. You can do a <b>
+                rotation</b> (or a <b>zig</b>) on the <b>x</b> node to get the following result:
+    </p>
+    <img class="tree" src="/static/tree3.png" alt="tree3">
+    <p>
+        You can imagine taking the entire tree and rotating it so that <b>x</b> is near the top. Then you
+        transfer the child of <b>x</b> that is closest to the parent, namely <b>B</b> to become a child of
+        the <b>p</b> node. Note that:
+    </p>
+    <ol>
+        <li>
+            The <b>x</b> is at the root of the tree.
+        </li>
+        <li>
+            The inequality above is still true.
+        </li>
+        <li>
+            The <b>A, B, or C</b> nodes <i>can</i> be NULL, meaning that, for example, if
+            <b>x</b> did not have a right child, then after the rotation, <b>p</b> will not have a left child.
+        </li>
+        <li>
+            The <b>A, B, or C</b> nodes <i>can</i> have their own children but since this rotation is with respect to
+            the <b>x</b>
+            node, those children will not effect this rotation
+        </li>
+        <li>
+            The <b>p</b> node <i>can</i> have a parent too (which is the grandparent of the <b>x</b> node) but after the
+            rotation,
+            <b>x</b> will replace <b>p</b> as the child of the grandparent node.
+        </li>
+    </ol>
+    <p>
+        The rotation, or zig, also works on the mirror image of starting tree. Just imagine <b>x</b> as the right child
+        of the
+        <b>p</b> node and still with two children. When you rotation, you just have to do it the other way.
+    </p>
+    <p>
+        Great! Now you know about the simple zig operation on a node of a tree. The zig is used in the other operations
+        that will
+        be explained later. It is also used when your target node is a child of the root (it is one node away from the
+        root). Then,
+        by doing the zig operation on the target node, it will bring it to the root. The following two operations are
+        what you
+        do when your target node is <i><b>MORE THAN ONE</b></i> node away from the root.
+    </p>
+    <h2>Zig-Zig</h2>
+    <p>
+        Key: <br>
+        <b>x</b> - Target node <br>
+        <b>p</b> - Parent node <br>
+        <b>g</b> - Grandparent node <br>
+        <b>A,B,C,D</b> - Children nodes
+    </p>
+    <img class="tree" src="/static/tree4.png" alt="tree4">
+    <p>
+        The <b>zig-zig</b> operation is used when the target node is the <i>same-side child</i> as its parent node. By
+        <b>same-side child</b>
+        I mean that the target node is a <u>left child</u> of its parent and its parent is also a <u>left child</u> of
+        the grandparent of
+        the target node or that the target node is a <u>right child</u> of its parent and the parent is also a <u>right
+            child</u> of the grandparent
+        node.
+    </p>
+    <p>
+        The zig-zig operation has two parts to it:
+    </p>
+    <ol>
+        <li>
+            Zig the tree with the <b>p</b> node as the "temporary target node" and then
+        </li>
+        <li>
+            Zig the tree with <b>x</b> as the target node.
+        </li>
+    </ol>
+    <img class="tree" src="/static/tree5.png" alt="tree5">
+    <p>
+        If we look at the above diagram and focus only on the inside of the dotted rectangle, we can see similarities
+        with the
+        example of zig from above. By comparison, we can see that the <b>p</b> node corresponds to the target node from
+        the zig diagram. From there, we can
+        do a zig on <b>p</b>. As you can see, the child of <b>p</b> which was closest to its parent is the <b>C</b> node
+        and therefore got transfered over to
+        being a child of <b>g</b> so this operation still makes sense. We can also see that the children of <b>x</b>
+        just "followed along".
+    </p>
+    <img class="tree" src="/static/tree6.png" alt="tree6">
+    <p>
+        Now we just look inside the dotted area (which is where <b>x</b> corresponds with the target node from the zig
+        diagram) and perform the zig operation
+        with <b>x</b> as the target node. Yay! Now <b>x</b> is at the root. Again, just like with the zig operation,
+        <b>A, B, C, or D</b> can be NULL or have their
+        own children and the grandparent can also have its own parent (but after the zig-zig operation, <b>x</b> will
+        replace <b>g</b> as being the child of that parent).
+    </p>
+    <h2>Zig-Zag</h2>
+    <p>
+        Key: <br>
+        <b>x</b> - Target node <br>
+        <b>p</b> - Parent node <br>
+        <b>g</b> - Grandparent node <br>
+        <b>A,B,C,D</b> - Children nodes
+    </p>
+    <img class="tree" src="/static/tree7.png" alt="tree7">
+    <p>
+        The <b>zig-zag</b> operation is used when the target node is <i>not</i> the same-side child as its parent node.
+        So if the target node is a <u>right child</u> of
+        its parent, then the parent is a <u>left child</u> of the grandparent node or vice versa.
+    </p>
+    <p>
+        The zig-zag operation also has two parts to it:
+    </p>
+    <ol>
+        <li>
+            Zig the tree with the <b>x</b> node as the target node and then
+        </li>
+        <li>
+            Zig the tree with <b>x</b> as the target node again.
+        </li>
+    </ol>
+    <img class="tree" src="/static/tree8.png" alt="tree8">
+    <p>
+        Looking at the dotted area, we can zig with <b>x</b> as the target node. A thing to note here is that this
+        example is the mirrored example of the zig diagram from
+        before but <b>x</b> still ends up as the "root" within the dotted area. Also, we can see how <b>x</b> replaces
+        <b>p</b> as one of the childen of <b>g</b>.
+    </p>
+    <img class="tree" src="/static/tree9.png" alt="tree9">
+    <p>
+        Focusing on the dotted area again, we can zig with <b>x</b> as the target node and end up with <b>x</b> at the
+        root. As with the other operations, <b>A, B, C, and D</b>
+        can be NULL or have their own children and if the grandparent node has a parent, then <b>x</b> will replace
+        <b>g</b> as the child of that parent.
+    </p>
+    <h2>Getting to the Top with Zigging and Zagging</h2>
+    <p>
+        As I have mentioned multiple times, after a zig-zig or zig-zag operation, the target node <i>may</i> replace the
+        grandparent node's place as the children of an even higher up
+        node. This means that if the target node starts near the bottom of a big tree, then the splay operation will be
+        using a series of zig-zig and zig-zag operations on <b>x</b> depending
+        on the situation. The zig does not have to be used in the end if <b>x</b> ends up being two nodes away from the
+        root of the tree, which will only necesitate the use of a zig-zig or a zig-zag.
+    </p>
+    <h2>Splaying with Binary Tree Operations</h2>
+    <h3>Insert</h3>
+    <p>
+        When insertng an element, you first use the regular insert method of a binary tree, where you compare the value
+        of the element you are inserting with that of a node on the tree. Starting from the root, you
+        traverse down the tree until that element has found its spot. Then you apply the splay operation on the element
+        that was just inserted. Here is an example.
+    </p>
+    <img class="tree" src="/static/tree10.png" alt="tree10">
+    <p>Let's say that we want to insert the element 12 into the tree. Then it will look like that.</p>
+    <img class="tree" src="/static/tree11.png" alt="tree11">
+    <p>Now we apply the splay operation on the element 12. First, it will do a zig-zag which will move it up. Then from
+        there, it will do a zig to go to the root of the tree.</p>
+    <h3>Find</h3>
+    <p>
+        When finding an element, if the element is in the tree, then that element will be splayed to the root. However,
+        if the element you are trying to find is not in the tree, then
+        it will splay the element that you are on right before you declared that that element is not in the tree. Taking
+        the diagram right after we inserted 12 into the tree, let's say that
+        we are trying to find the element 10, a nonexistent element:
+    </p>
+    <ol>
+        <li>
+            We traverse down the tree from 7 -> 13 -> 11.
+        </li>
+        <li>
+            Since 10 is less than 11, but 11 does not have a left child, then we declare that 10 is not an element of
+            the tree.
+        </li>
+        <li>
+            Finally, we splay the element 11 to the root of the tree.
+        </li>
+    </ol>
+    <h3>Delete</h3>
+
+    <table border="1">
+        <tr>
+            <th>Advantages</th>
+            <th>Disadvantages</th>
+        </tr>
+        <tr>
+            <td>Ability to reaccess recently added or searched for elements quickly (Efficient in the long run)</td>
+            <td>Individual operations are expensive O(n) (Inefficient short term)</td>
+        </tr>
+        <tr>
+            <td>Splaying will almost always balance out the tree</td>
+            <td>Searching also includes splaying (Bad for multi-threaded environment since everyone tries to access the
+                tree that is constantly changing)</td>
+        </tr>
+        <tr>
+            <td>Easier to implement than AVL and red-black trees</td>
+            <td></td>
+        </tr>
+    </table>
+
+    <h2>Application</h2>
+    <h3>Caches</h3>
+    <p> Caches store data temporarily that has been recently accessed so that future requests
+        for that data can be served faster which is exactly what splay trees do. </p>
+    <h3>Garbage Collection</h3>
+    <p> Garbage collection happens whenever data is no longer being used so the memory
+        allocated to it can be freed. Using a splay tree, it makes locating useless data
+        easier because the data would be near the bottom of the tree. </p>
+    <h3>Data Compression (Huffman Coding)</h3>
+    <p> Since data compression is a difficult topic to understand,
+        <a href="https://www.youtube.com/watch?v=JsTptu56GM8">here</a> is a video explaining
+        it. After watching this video you can see that using a splay tree will help arrange
+        common letters to be closer to the root and rare letters to be closer to the bottom. </p>
+    <footer style="text-align:center">
+        <hr>
+        &copy; Team Splaytoon - Jason Lin and Kenny Li (Period 7)
+    </footer>
+</body>
+
 </html>
