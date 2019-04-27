@@ -15,14 +15,94 @@
           The <b>splay</b> method is an operation on the splay tree that brings a given node
           to the root of the tree via a set of <i>rotations</i>.
       </p>
-      <h2>Rotations</h2>
+      <h2>Binary Tree</h2>
       <p>Here is a typical binary tree:</p>
-      <p class="tree">
-          7<br>
-          /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\<br>
-          3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13<br>
-          /&nbsp;&nbsp;&nbsp;\&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;\
-          
+      <img class="tree" src="/static/tree1.png" alt="tree1">
+      <p>
+          As you can see, every node has at most 2 children and the left children are
+          less than their parents while the right children are greater than their parents. Now let's
+          see how a rotation works with an example.
+      </p>
+      <h2>Rotation (Zig)</h2>
+      <p>
+          Key: <br>
+          <b>x</b> - Target node <br>
+          <b>p</b> - Parent node <br>
+          <b>A,B,C</b> - Children nodes
+      </p>
+      <img class="tree" src="/static/tree2.png" alt="tree2">
+      <p>
+          In the diagram above, you can see how the inequality <i>A < x < B < p < C</i> holds true.
+          You can do a <b>rotation</b> (or a <b>zig</b>) on the <b>x</b> node to get the following result:
+      </p>
+      <img class="tree" src="/static/tree3.png" alt="tree3">
+      <p>
+          You can imagine taking the entire tree and rotating it so that <b>x</b> is near the top. Then you
+          transfer the child of <b>x</b> that is closest to the parent, namely <b>B</b> to become a child of
+          the <b>p</b> node. Note that:
+      </p>
+      <ol>
+          <li>
+              The <b>x</b> is at the root of the tree.
+          </li>
+          <li>
+              The inequality above is still true.
+          </li>
+          <li>
+              The <b>A, B, or C</b> nodes <i>can</i> be NULL, meaning that, for example, if
+              <b>x</b> did not have a right child, then after the rotation, <b>p</b> will not have a left child.
+          </li>
+          <li>
+              The <b>A, B, or C</b> nodes <i>can</i> have their own children but since this rotation is with respect to the <b>x</b>
+              node, those children will not effect this rotation
+          </li>
+          <li>
+              The <b>p</b> node <i>can</i> have a parent too (which is the grandparent of the <b>x</b> node) but after the rotation,
+              <b>x</b> will replace <b>p</b> as the child of the grandparent node.
+          </li>
+      </ol>
+      <p>
+          The rotation, or zig, also works on the mirror image of starting tree. Just imagine <b>x</b> as the right child of the
+          <b>p</b> node and still with two children. When you rotation, you just have to do it the other way.
+      </p>
+      <p>
+          Great! Now you know about the simple zig operation on a node of a tree. The zig is used in the other operations that will
+          be explained later. It is also used when your target node is a child of the root (it is one node away from the root). Then,
+          by doing the zig operation on the target node, it will bring it to the root. The following two operations are what you
+          do when your target node is <i><b>MORE THAN ONE</b></i> node away from the root.
+      </p>
+      <h2>Zig-Zig</h2>
+      <p>
+          Key: <br>
+          <b>x</b> - Target node <br>
+          <b>p</b> - Parent node <br>
+          <b>g</b> - Grandparent node <br>
+          <b>A,B,C,D</b> - Children nodes
+      </p>
+      <img class="tree" src="/static/tree4.png" alt="tree4">
+      <p>
+          The <b>zig-zig</b> operation is used when the target node is the <i>same-side child</i> as its parent node. By <b>same-side child</b>
+          I mean that the target node is a <u>left child</u> of its parent and its parent is also a <u>left child</u> of the grandparent of
+          the target node or that the target node is a <u>right child</u> of its parent and the parent is also a <u>right child</u> of the grandparent
+          node.
+      </p>
+      <p>
+          The zig-zig operation has two parts to it:
+      </p>
+      <ol>
+          <li>
+              Zig the tree with the <b>p</b> node as the "temporary target node" and then
+          </li>
+          <li>
+              Zig the tree with <b>x</b> as the target node.
+          </li>
+      </ol>
+      <img class="tree" src="/static/tree5.png" alt="tree5">
+      <p>
+          If we look at the above diagram and focus only on the inside of the dotted rectangle, we can see similarities with the
+          example of zig from above. By comparison, we can see that the <b>p</b> node corresponds to the target node from the zig diagram. From there, we can
+          do a zig on <b>p</b>. As you can see, the child of <b>p</b> which was closest to its parent is the <b>C</b> node and therefore got transfered over to
+          being a child of <b>g</b> so this operation still makes sense. We can also see that the children of <b>x</b> just "followed along".
       </p>
   </body>
 </html>
