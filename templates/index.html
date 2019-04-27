@@ -6,7 +6,7 @@
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles.css') }}">
   </head>
   <body>
-      <h1>Splay Tree</h1>
+      <h1>Splay Trees</h1>
       <p>
           A <b>splay tree</b> is a type of binary tree that incorporates a <i>splay</i> method
           at the end of each operation (i.e. insert, delete, and find).
@@ -104,5 +104,57 @@
           do a zig on <b>p</b>. As you can see, the child of <b>p</b> which was closest to its parent is the <b>C</b> node and therefore got transfered over to
           being a child of <b>g</b> so this operation still makes sense. We can also see that the children of <b>x</b> just "followed along".
       </p>
+      <img class="tree" src="/static/tree6.png" alt="tree6">
+      <p>
+          Now we just look inside the dotted area (which is where <b>x</b> corresponds with the target node from the zig diagram) and perform the zig operation
+          with <b>x</b> as the target node. Yay! Now <b>x</b> is at the root. Again, just like with the zig operation, <b>A, B, C, or D</b> can be NULL or have their
+          own children and the grandparent can also have its own parent (but after the zig-zig operation, <b>x</b> will replace <b>g</b> as being the child of that parent).
+      </p>
+      <h2>Zig-Zag</h2>
+      <p>
+          Key: <br>
+          <b>x</b> - Target node <br>
+          <b>p</b> - Parent node <br>
+          <b>g</b> - Grandparent node <br>
+          <b>A,B,C,D</b> - Children nodes
+      </p>
+      <img class="tree" src="/static/tree7.png" alt="tree7">
+      <p>
+          The <b>zig-zag</b> operation is used when the target node is <i>not</i> the same-side child as its parent node. So if the target node is a <u>right child</u> of
+          its parent, then the parent is a <u>left child</u> of the grandparent node or vice versa.
+      </p>
+      <p>
+          The zig-zag operation also has two parts to it:
+      </p>
+      <ol>
+          <li>
+              Zig the tree with the <b>x</b> node as the target node and then
+          </li>
+          <li>
+              Zig the tree with <b>x</b> as the target node again.
+          </li>
+      </ol>
+      <img class="tree" src="/static/tree8.png" alt="tree8">
+      <p>
+          Looking at the dotted area, we can zig with <b>x</b> as the target node. A thing to note here is that this example is the mirrored example of the zig diagram from
+          before but <b>x</b> still ends up as the "root" within the dotted area. Also, we can see how <b>x</b> replaces <b>p</b> as one of the childen of <b>g</b>.
+      </p>
+      <img class="tree" src="/static/tree9.png" alt="tree9">
+      <p>
+          Focusing on the dotted area again, we can zig with <b>x</b> as the target node and end up with <b>x</b> at the root. As with the other operations, <b>A, B, C, and D</b>
+          can be NULL or have their own children and if the grandparent node has a parent, then <b>x</b> will replace <b>g</b> as the child of that parent.
+      </p>
+      <h2>Getting to the Top with Zigging and Zagging</h2>
+      <p>
+          As I have mentioned multiple times, after a zig-zig or zig-zag operation, the target node <i>may</i> replace the grandparent node's place as the children of an even higher up
+          node. This means that if the target node starts near the bottom of a big tree, then the splay operation will be using a series of zig-zig and zig-zag operations on <b>x</b> depending
+          on the situation. The zig does not have to be used in the end if <b>x</b> ends up being two nodes away from the root of the tree, which will only necesitate the use of a zig-zig or a zig-zag.
+      </p>
+      <h2>Splaying with Binary Tree Operations</h2>
+      
+      <footer style="text-align:center">
+          <hr>
+          &copy; Team Splaytoon - Jason Lin and Kenny Li (Period 7)
+      </footer>
   </body>
 </html>
