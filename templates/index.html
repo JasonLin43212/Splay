@@ -221,13 +221,13 @@
     </ol>
     <img class="tree" src="/static/tree12.png" alt="tree12">
     <h2>Pros and Cons</h2>
-    <table border="1">
+    <table>
         <tr>
             <th>Advantages</th>
             <th>Disadvantages</th>
         </tr>
         <tr>
-            <td>Ability to reaccess recently added or searched for elements quickly (Efficient in the long run)</td>
+            <td>Ability to reaccess recently added or searched for elements quickly (Efficient long term)</td>
             <td>Individual operations are expensive O(n) (Inefficient short term)</td>
         </tr>
         <tr>
@@ -244,22 +244,27 @@
     <h2>Application</h2>
     <h3>Caches</h3>
     <p> Caches store data temporarily that has been recently accessed so that future requests
-        for that data can be served faster which is exactly what splay trees do. </p>
+        for that data can be served faster which is exactly what splay trees do. Since splaying
+        moves the current element to the root of the splay tree, it allows for O(1) access on that
+        element.</p>
     <h3>Garbage Collection</h3>
-    <p> Garbage collection happens whenever data is no longer being used so the memory
-        allocated to it can be freed. Using a splay tree, it makes locating useless data
-        easier because the data would be near the bottom of the tree. </p>
+    <p> Garbage collection occurs whenever data is no longer being used so the memory
+        allocated to it can be freed. Using a splay tree, it makes locating data that needs
+        to be freed easier because that data would be near the bottom of the tree.</p>
     <h3>Data Compression (Huffman Coding)</h3>
     <p> Since data compression is a difficult topic to understand,
         <a href="https://www.youtube.com/watch?v=JsTptu56GM8">here</a> is a video explaining
         it. After watching this video you can see that using a splay tree will help arrange
-        common letters to be closer to the root and rare letters to be closer to the bottom. </p>
+        common letters to be closer to the root and rare letters to be closer to the bottom. As
+        a result, the path to the common letters will be shorter resulting in less bits being
+        used to represent that letter compared to rare letters.</p>
     <h2>Other Resources</h2>
     <ul>
-        <li><a href="https://www.cs.usfca.edu/~galles/visualization/SplayTree.html">Splay Tree Visualizer</a></li>
+        <li><a href="https://www.cs.usfca.edu/~galles/visualization/SplayTree.html">Splay tree visualizer</a></li>
         <li><a href="https://en.wikipedia.org/wiki/Splay_tree">Read more on Wikipedia</a></li>
         <li><a href="https://www.cs.cornell.edu/courses/cs3110/2009fa/recitations/rec-splay.html">Explanation by Cornell</a></li>
-        <li><a href="https://www.youtube.com/watch?v=IBY4NtxmGg8">Video explaning Splay Tree</a> </li>
+        <li><a href="https://www.youtube.com/watch?v=IBY4NtxmGg8">Video explaining splay tree</a> </li>
+        <li><a href="https://github.com/JasonLin43212/Splay/blob/master/splay.py">Splay tree implementation in Python</a></li>
     </ul>
     <footer style="text-align:center">
         <hr>
